@@ -1,4 +1,4 @@
-# PoorsGuide.com/StockSplits
+# @PoorsGuide ./StockSplits
 
 the "Poors Guide" to stock splits
 
