@@ -12,9 +12,11 @@ How to jumpstart your stock, options, nft, etf, crypto, and alternative investme
 | Fractions | Income  | Stake | Stake  | Goods  |
 | Shares    | Puts    | Trade | Trade  | Metals |
 
-[www.PoorsGuide.com](https://www.poorsguide.com/)
-./Brokers
-./ExChanges
-./Research
-.[/StockSplits](https://www.poorsguide.com/stocksplits)
-./Tools
+[www.PoorsGuide.com](https://www.poorsguide.com/) @PoorsGuide 
+- ./Brokers 
+- ./Dividends 
+- ./ExChanges 
+- ./Research 
+- ./Resources 
+- .[/StockSplits](https://www.poorsguide.com/stocksplits)
+- ./Tools 
