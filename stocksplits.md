@@ -3,7 +3,7 @@
 the "Poors Guide" to stock splits
 
 Resources to find upcoming stock splits:
-- Breifing.com [breifing.com](https://www.briefing.com/calendars/splits 
+- Breifing.com [breifing.com](https://www.briefing.com/calendars/splits) 
 - Docoh [docoh.com](https://docoh.com/stock-split-calendar) 
 - Fidelity [fidelity.com](https://eresearch.fidelity.com/eresearch/conferenceCalls.jhtml?tab=splits) 
 - FINRA [finra.com](https://otce.finra.org/otce/dailyList?viewType=Dividends%2FDistributions%2FSplits) 
