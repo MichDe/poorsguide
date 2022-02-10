@@ -21,4 +21,11 @@ Research and Fillings resources
 - EDGAR [sec.report](https://sec.report/) 
 - CSE *english* [thecse.com](https://thecse.com/en) 
 
-[www.PoorsGuide.com](https://www.poorsguide.com/) [/StockSplits](https://www.poorsguide.com/stocksplits)
+[www.PoorsGuide.com](https://www.poorsguide.com/) @PoorsGuide 
+- ./Brokers 
+- ./Dividends 
+- ./ExChanges 
+- ./Research 
+- ./Resources 
+- .[/StockSplits](https://www.poorsguide.com/stocksplits)
+- ./Tools 
