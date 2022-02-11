@@ -13,7 +13,7 @@ How to jumpstart your stock, options, nft, etf, crypto, and alternative investme
 | Short  | Puts    | Trade | Trade  | Metals |
 
  @PoorsGuide [www.PoorsGuide.com](https://www.poorsguide.com/) 
-- ./Brokers 
+- .[/Brokers](https://www.poorsguide.com/brokers)  
 - ./Buybacks
 - ./ContractsAgreements
 - ./Dividends 
