@@ -28,7 +28,7 @@ News and Press Releases
 - PR Newswire [prnewswire.com](https://www.prnewswire.com/news-releases/financial-services-latest-news/stock-split-list/)
 
  @PoorsGuide [www.PoorsGuide.com](https://www.poorsguide.com/) 
-- ./Brokers 
+- .[/Brokers](https://www.poorsguide.com/brokers)  
 - ./Buybacks
 - ./ContractsAgreements
 - ./Dividends 
