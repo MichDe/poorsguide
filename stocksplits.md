@@ -31,8 +31,10 @@ News and Press Releases
 - ./Brokers 
 - ./Dividends 
 - ./ExChanges 
+- ./MergersAcquisitions 
 - ./Research 
 - ./Resources 
-- ./Sentiment
-- .[/StockSplits](https://www.poorsguide.com/stocksplits)
+- ./Sentiment 
+- .[/StockSplits](https://www.poorsguide.com/stocksplits) 
+- ./TenderOffers 
 - ./Tools 
