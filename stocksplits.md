@@ -21,11 +21,18 @@ Research and Fillings resources
 - EDGAR [sec.report](https://sec.report/) 
 - CSE *english* [thecse.com](https://thecse.com/en) 
 
-[www.PoorsGuide.com](https://www.poorsguide.com/) @PoorsGuide 
+News and Press Releases
+- Business Wire [businesswire.com](https://www.businesswire.com/portal/site/home/news/subject/?vnsId=31352)
+- GlobeNewswire [globenewswire.com](https://www.globenewswire.com/search/keyword/stock%252520split,%22stock%252520split%22/tag/reverse%252520split,reverse%252520stock%252520split,stock%252520split) 
+- Newsfile Corp [newsfilecorp.com](https://www.newsfilecorp.com/search?k=stock+split) 
+- PR Newswire [prnewswire.com](https://www.prnewswire.com/news-releases/financial-services-latest-news/stock-split-list/)
+
+ @PoorsGuide [www.PoorsGuide.com](https://www.poorsguide.com/) 
 - ./Brokers 
 - ./Dividends 
 - ./ExChanges 
 - ./Research 
 - ./Resources 
+- ./Sentiment
 - .[/StockSplits](https://www.poorsguide.com/stocksplits)
 - ./Tools 
