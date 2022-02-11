@@ -14,12 +14,21 @@ How to jumpstart your stock, options, nft, etf, crypto, and alternative investme
 
  @PoorsGuide [www.PoorsGuide.com](https://www.poorsguide.com/) 
 - ./Brokers 
+- ./Buybacks
+- ./ContractsAgreements
 - ./Dividends 
 - ./ExChanges 
+- ./IPOs
+- ./LicencingRights
 - ./MergersAcquisitions 
+- ./NFTs
+- ./PatentsTrademarks
 - ./Research 
 - ./Resources 
 - ./Sentiment 
+- ./SPACs
 - .[/StockSplits](https://www.poorsguide.com/stocksplits) 
 - ./TenderOffers 
+- ./Trends
 - ./Tools 
+- ./Warrants
