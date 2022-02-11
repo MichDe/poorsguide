@@ -29,12 +29,20 @@ News and Press Releases
 
  @PoorsGuide [www.PoorsGuide.com](https://www.poorsguide.com/) 
 - ./Brokers 
+- ./Buybacks
 - ./Dividends 
 - ./ExChanges 
+- ./IPOs
+- ./LicencingRights
 - ./MergersAcquisitions 
+- ./NFTs
+- ./PatentsTrademarks
 - ./Research 
 - ./Resources 
 - ./Sentiment 
+- ./SPACs
 - .[/StockSplits](https://www.poorsguide.com/stocksplits) 
 - ./TenderOffers 
+- ./Trends
 - ./Tools 
+- ./Warrants
