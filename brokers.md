@@ -21,6 +21,7 @@ https://chase.com
 |      |     |      |     |     | yes  |      |     
 
 https://eoption.com 
+
 | perk | ext | frac | opt | otc | spec | coin |                                 
 | ---- | --- | ---- | --- | --- | ---- | ---- |
 |      |     |      | yes |     | yes  |      | 
@@ -103,7 +104,8 @@ https://tradier.com
 | ---- | --- | ---- | --- | --- | ---- | ---- |
 |      |     |      |     |     | yes  |      |    
 
-https://vanguard.com
+https://vanguard.com 
+
 | perk | ext | frac | opt | otc | spec | coin |                                 
 | ---- | --- | ---- | --- | --- | ---- | ---- |
 |      | yes |      | yes | yes | yes  |      |  
