@@ -30,5 +30,5 @@ How to jumpstart your stock, options, nft, etf, crypto, and alternative investme
 - .[/StockSplits](https://www.poorsguide.com/stocksplits) 
 - ./TenderOffers 
 - ./Trends
-- ./Tools 
+- ./Tools(https://www.poorsguide.com/tools)
 - ./Warrants
