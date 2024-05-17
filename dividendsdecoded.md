@@ -1,6 +1,5 @@
 <style>
     body {
-        font-family: Consolas, monospace;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -8,8 +7,8 @@
     form {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
-        padding: 20px;
+        gap: 9px;
+        padding: 18px;
     }
     label {
         flex: 1 1 100%;
@@ -35,15 +34,15 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        margin: 20px 0;
+        margin: 6px 0;
     }
     th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
+        border: 1px solid #dedede;
+        padding: 6px;
         text-align: left;
     }
     th {
-        background-color: #f2f2f2;
+        background-color:#B5E853;
     }
     @media (max-width: 600px) {
         table, thead, tbody, th, td, tr {
