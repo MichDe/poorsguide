@@ -1,3 +1,36 @@
+<style>
+   form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 20px;
+    }
+    label {
+        flex: 1 1 100%;
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="submit"] {
+        flex: 1 1 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        table-layout: auto;
+    }
+    @media (max-width: 600px) {
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    }
+</style>
 <h2>Quote and Dividend Data</h2>
 <form id="dataForm">
     <label for="symbol">Symbol:</label>
@@ -33,9 +66,17 @@ document.getElementById("dataForm").addEventListener("submit", function(event) {
                     tableHtml += "<tr><th>Regularity</th><th>Day Low</th><th>Day High</th><th>Exchange</th><th>Volume</th><th>Avg Volume</th><th>Market Cap</th><th>Shares Outstanding</th></tr>";
 
                     let dividendDates = [];
+                    let exDates = [];
+                    let payDates = [];
+                    let declarationDates = [];
+                    let recordDates = [];
 
                     dividendData.historical.forEach(entry => {
                         dividendDates.push(new Date(entry.date));
+                        exDates.push(new Date(entry.date));
+                        payDates.push(new Date(entry.paymentDate));
+                        declarationDates.push(new Date(entry.declarationDate));
+                        recordDates.push(new Date(entry.recordDate));
                     });
 
                     function determineRegularity(dates) {
@@ -59,16 +100,49 @@ document.getElementById("dataForm").addEventListener("submit", function(event) {
                         }
                     }
 
+                    function calculateAverageDay(dates) {
+                        const totalDays = dates.reduce((sum, date) => sum + date.getDate(), 0);
+                        return Math.round(totalDays / dates.length);
+                    }
+
                     let regularity = determineRegularity(dividendDates);
+                    let avgExDay = calculateAverageDay(exDates);
+                    let avgPayDay = calculateAverageDay(payDates);
+                    let avgDeclarationDay = calculateAverageDay(declarationDates);
+                    let avgRecordDay = calculateAverageDay(recordDates);
 
                     tableHtml += `<tr><td data-label="Regularity">${regularity}</td><td data-label="Day Low">${quoteData[0].dayLow}</td><td data-label="Day High">${quoteData[0].dayHigh}</td><td data-label="Exchange">${quoteData[0].exchange}</td><td data-label="Volume">${quoteData[0].volume}</td><td data-label="Avg Volume">${quoteData[0].avgVolume}</td><td data-label="Market Cap">${quoteData[0].marketCap}</td><td data-label="Shares Outstanding">${quoteData[0].sharesOutstanding}</td></tr>`;
 
-                    tableHtml += "<tr><th>Ex Date</th><th>Pay Date</th><th>Declaration Date</th><th>Record Date</th><th>Amount</th><th>Annual Yield (%)</th><th>Monthly Yield (%)</th><th>Estimated Annual Amount</th></tr>";
+                    tableHtml += "<tr><th>Avg Ex Day</th><th>Avg Pay Day</th><th>Avg Declaration Day</th><th>Avg Record Day</th><th>Amount</th><th>Annual Yield (%)</th><th>Monthly Yield (%)</th><th>Estimated Annual Amount</th></tr>";
+
+                    let totalAmount = 0;
+                    let totalAnnualYield = 0;
+                    let totalMonthlyYield = 0;
+                    let rowCount = dividendData.historical.length;
+
                     dividendData.historical.forEach(entry => {
                         const annualYield = (entry.dividend * 12 / quoteData[0].price) * 100;
                         const monthlyYield = annualYield / 12;
                         const estimatedAnnualAmount = (entry.dividend * 12 / quoteData[0].price) * quoteData[0].price;
 
+                        totalAmount += entry.dividend;
+                        totalAnnualYield += annualYield;
+                        totalMonthlyYield += monthlyYield;
+                    });
+
+                    const avgAmount = totalAmount / rowCount;
+                    const avgAnnualYield = totalAnnualYield / rowCount;
+                    const avgMonthlyYield = totalMonthlyYield / rowCount;
+                    const avgEstimatedAnnualAmount = totalAmount / rowCount * 12;
+
+                    tableHtml += `<tr><td data-label="Avg Ex Day">${avgExDay}</td><td data-label="Avg Pay Day">${avgPayDay}</td><td data-label="Avg Declaration Day">${avgDeclarationDay}</td><td data-label="Avg Record Day">${avgRecordDay}</td><td data-label="Amount">${avgAmount.toFixed(2)}</td><td data-label="Annual Yield (%)">${avgAnnualYield.toFixed(2)}</td><td data-label="Monthly Yield (%)">${avgMonthlyYield.toFixed(2)}</td><td data-label="Estimated Annual Amount">${avgEstimatedAnnualAmount.toFixed(2)}</td></tr>`;
+
+                    tableHtml += "<tr><th>Ex Date</th><th>Pay Date</th><th>Declaration Date</th><th>Record Date</th><th>Amount</th><th>Annual Yield (%)</th><th>Monthly Yield (%)</th><th>Estimated Annual Amount</th></tr>";
+
+                    dividendData.historical.forEach(entry => {
+                        const annualYield = (entry.dividend * 12 / quoteData[0].price) * 100;
+                        const monthlyYield = annualYield / 12;
+                        const estimatedAnnualAmount = (entry.dividend * 12 / quoteData[0].price) * quoteData[0].price;
                         tableHtml += `<tr><td data-label="Ex Date">${entry.date}</td><td data-label="Pay Date">${entry.paymentDate}</td><td data-label="Declaration Date">${entry.declarationDate}</td><td data-label="Record Date">${entry.recordDate}</td><td data-label="Amount">${entry.dividend}</td><td data-label="Annual Yield (%)">${annualYield.toFixed(2)}</td><td data-label="Monthly Yield (%)">${monthlyYield.toFixed(2)}</td><td data-label="Estimated Annual Amount">${estimatedAnnualAmount.toFixed(2)}</td></tr>`;
                     });
 
