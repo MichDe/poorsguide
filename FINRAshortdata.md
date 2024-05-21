@@ -1,6 +1,6 @@
 # ./FINRAshortdata
 
-  <input type="date" id="date-selector" />
+    <input type="date" id="date-selector" />
   <select id="file-type-selector">
     <option value="CNMSshvol" selected>Consolidated</option>
     <option value="FNSQshvol">NASDAQ Carteret</option>
@@ -20,7 +20,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    $(document).ready(function() {
       function isWeekday(date) {
         const day = date.getDay();
         return day >= 1 && day <= 5;
@@ -45,11 +45,11 @@
       }
 
       const defaultDate = getDefaultDate();
-      document.getElementById('date-selector').value = defaultDate;
+      $('#date-selector').val(defaultDate);
 
       function updateUrlAndReload() {
-        const selectedDate = new Date(document.getElementById('date-selector').value);
-        const selectedFileType = document.getElementById('file-type-selector').value;
+        const selectedDate = new Date($('#date-selector').val());
+        const selectedFileType = $('#file-type-selector').val();
 
         if (isWeekday(selectedDate)) {
           const formattedDate = selectedDate.toISOString().split('T')[0].replace(/-/g, '');
@@ -57,12 +57,12 @@
           window.location.href = newUrl;
         } else {
           alert('Please select a weekday.');
-          document.getElementById('date-selector').value = defaultDate;
+          $('#date-selector').val(defaultDate);
         }
       }
 
-      document.getElementById('date-selector').addEventListener('change', updateUrlAndReload);
-      document.getElementById('file-type-selector').addEventListener('change', updateUrlAndReload);
+      $('#date-selector').change(updateUrlAndReload);
+      $('#file-type-selector').change(updateUrlAndReload);
 
       function getQueryParams() {
         const params = {};
@@ -78,8 +78,8 @@
       const params = getQueryParams();
       const selectedDate = params.date || defaultDate.replace(/-/g, '');
       const selectedFileType = params.filetype || 'CNMSshvol';
-      document.getElementById('date-selector').value = `${selectedDate.slice(0, 4)}-${selectedDate.slice(4, 6)}-${selectedDate.slice(6, 8)}`;
-      document.getElementById('file-type-selector').value = selectedFileType;
+      $('#date-selector').val(`${selectedDate.slice(0, 4)}-${selectedDate.slice(4, 6)}-${selectedDate.slice(6, 8)}`);
+      $('#file-type-selector').val(selectedFileType);
       
       const dataUrl = `https://cdn.finra.org/equity/regsho/daily/${selectedFileType}${selectedDate}.txt`;
 
@@ -121,17 +121,17 @@
         .then(data => {
           const delimiter = detectDelimiter(data);
           const rows = parseData(data, delimiter);
-          const table = document.getElementById('data-table');
+          const table = $('#data-table');
 
           // Populate headers
           let theadHTML = '';
           rows[0].forEach(header => {
             theadHTML += `<th>${header}</th>`;
           });
-          table.querySelector('thead tr').innerHTML = theadHTML;
+          table.find('thead tr').html(theadHTML);
 
           // Initialize DataTables with server-side processing
-          $(table).DataTable({
+          table.DataTable({
             data: rows.slice(1),
             columns: rows[0].map(header => ({ title: header })),
             deferRender: true,
@@ -142,4 +142,6 @@
         })
         .catch(error => console.error('Error fetching the data file:', error));
     });
+$.fn.dataTable.ext.errMode = 'none';
+
   </script>
