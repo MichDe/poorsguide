@@ -1,4 +1,4 @@
-# @PoorsGuide ./datas 
+# ./datas 
 
 <table id="data-table">
     <thead>
@@ -12,7 +12,7 @@
   </table>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const sheetUrl = 'https://www.nyse.com/api/trade-halts/current/download/Trade_halts.csv';
+  const sheetUrl = 'https://www.nyse.com/api/trade-halts/current/download';
 
   fetch(sheetUrl)
     .then(response => response.text())
