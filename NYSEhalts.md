@@ -12,7 +12,7 @@
   </table>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const sheetUrl = '[https://docs.google.com/spreadsheets/d/e/2PACX-1vSm02-ccjaMk1wVhrlnlO5z9_3iavHhVB87VzO7NTCtlfhHfkDXyuLOmVLbgWOkggQlU59Mg8jdQjOj/pub?gid=1154281212&single=true&output=csv](https://docs.google.com/spreadsheets/d/e/2PACX-1vSm02-ccjaMk1wVhrlnlO5z9_3iavHhVB87VzO7NTCtlfhHfkDXyuLOmVLbgWOkggQlU59Mg8jdQjOj/pub?gid=2010925899&single=true&output=csv)';
+  const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSm02-ccjaMk1wVhrlnlO5z9_3iavHhVB87VzO7NTCtlfhHfkDXyuLOmVLbgWOkggQlU59Mg8jdQjOj/pub?gid=2010925899&single=true&output=csv';
 
   fetch(sheetUrl)
     .then(response => response.text())
