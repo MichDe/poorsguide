@@ -1,6 +1,15 @@
 # ./FINRAshortdata
 
-<input type="date" id="date-selector" />
+  <input type="date" id="date-selector" />
+  <select id="file-type-selector">
+    <option value="CNMSshvol" selected>Consolidated</option>
+    <option value="FNSQshvol">NASDAQ Carteret</option>
+    <option value="FNQCshvol">NASDAQ Chicago</option>
+    <option value="FNYXshvol">NYSE</option>
+    <option value="FNRAshvol">ADF</option>
+    <option value="FORFshvol">ORF</option>
+    <!-- Add more options as needed -->
+  </select>
   <table id="data-table">
     <thead>
       <tr></tr>
@@ -38,19 +47,24 @@
       const defaultDate = getDefaultDate();
       document.getElementById('date-selector').value = defaultDate;
 
-      // Update URL and reload page with selected date
-      document.getElementById('date-selector').addEventListener('change', function(event) {
-        const selectedDate = new Date(event.target.value);
+      // Update URL and reload page with selected date and file type
+      function updateUrlAndReload() {
+        const selectedDate = new Date(document.getElementById('date-selector').value);
+        const selectedFileType = document.getElementById('file-type-selector').value;
+        
         if (isWeekday(selectedDate)) {
           const formattedDate = selectedDate.toISOString().split('T')[0].replace(/-/g, '');
-          const newUrl = `${window.location.pathname}?date=${formattedDate}`;
+          const newUrl = `${window.location.pathname}?date=${formattedDate}&filetype=${selectedFileType}`;
           window.location.href = newUrl;
         } else {
           alert('Please select a weekday.');
           // Reset to default date if an invalid date is selected
           document.getElementById('date-selector').value = defaultDate;
         }
-      });
+      }
+
+      document.getElementById('date-selector').addEventListener('change', updateUrlAndReload);
+      document.getElementById('file-type-selector').addEventListener('change', updateUrlAndReload);
 
       // Function to parse the URL query parameters
       function getQueryParams() {
@@ -64,40 +78,33 @@
         return params;
       }
 
-      // Fetch and display data based on the date parameter
+      // Fetch and display data based on the date and file type parameters
       const params = getQueryParams();
       const selectedDate = params.date || defaultDate.replace(/-/g, '');
-      if (selectedDate) {
-        document.getElementById('date-selector').value = `${selectedDate.slice(0, 4)}-${selectedDate.slice(4, 6)}-${selectedDate.slice(6, 8)}`;
-        const dataUrl = `https://cdn.finra.org/equity/regsho/daily/CNMSshvol${selectedDate}.txt`;
+      const selectedFileType = params.filetype || 'CNMSshvol'; // Default file type
+      document.getElementById('date-selector').value = `${selectedDate.slice(0, 4)}-${selectedDate.slice(4, 6)}-${selectedDate.slice(6, 8)}`;
+      document.getElementById('file-type-selector').value = selectedFileType;
+      
+      const dataUrl = `https://cdn.finra.org/equity/regsho/daily/${selectedFileType}${selectedDate}.txt`;
 
-        fetch(dataUrl)
-          .then(response => response.text())
-          .then(data => {
-            const delimiter = detectDelimiter(data);
-            const rows = parseData(data, delimiter);
-            const table = document.getElementById('data-table');
+      fetch(dataUrl)
+        .then(response => response.text())
+        .then(data => {
+          const delimiter = detectDelimiter(data);
+          const rows = parseData(data, delimiter);
+          const table = document.getElementById('data-table');
 
-            // Populate headers
-            let theadHTML = '';
-            rows[0].forEach(header => {
-              theadHTML += `<th>${header}</th>`;
-            });
-            table.querySelector('thead tr').innerHTML = theadHTML;
+          // Populate headers
+          let theadHTML = '';
+          rows[0].forEach((header, index) => {
+            theadHTML += `<th onclick="sortTable(${index})">${header}</th>`;
+          });
+          table.querySelector('thead tr').innerHTML = theadHTML;
 
-            // Populate data rows
-            let tbodyHTML = '';
-            rows.slice(1).forEach(row => {
-              tbodyHTML += '<tr>';
-              row.forEach(cell => {
-                tbodyHTML += `<td>${cell}</td>`;
-              });
-              tbodyHTML += '</tr>';
-            });
-            table.querySelector('tbody').innerHTML = tbodyHTML;
-          })
-          .catch(error => console.error('Error fetching the data file:', error));
-      }
+          // Populate data rows
+          populateTableBody(rows.slice(1));
+        })
+        .catch(error => console.error('Error fetching the data file:', error));
 
       function detectDelimiter(data) {
         const lines = data.split('\n');
@@ -131,5 +138,57 @@
         }
         return arr;
       }
+
+      function populateTableBody(rows) {
+        const tableBody = document.getElementById('data-table').querySelector('tbody');
+        const fragment = document.createDocumentFragment();
+
+        rows.forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+          });
+          fragment.appendChild(tr);
+        });
+
+        tableBody.innerHTML = '';
+        tableBody.appendChild(fragment);
+      }
     });
+
+    function sortTable(n) {
+      const table = document.getElementById('data-table');
+      const tbody = table.querySelector('tbody');
+      const rowsArray = Array.from(tbody.rows);
+      let switching = true, dir = "asc", switchcount = 0;
+
+      while (switching) {
+        switching = false;
+
+        for (let i = 0; i < rowsArray.length - 1; i++) {
+          let shouldSwitch = false;
+          const x = rowsArray[i].getElementsByTagName("TD")[n];
+          const y = rowsArray[i + 1].getElementsByTagName("TD")[n];
+
+          if (dir === "asc" && x.textContent.toLowerCase() > y.textContent.toLowerCase() ||
+              dir === "desc" && x.textContent.toLowerCase() < y.textContent.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+
+        if (shouldSwitch) {
+          tbody.insertBefore(rowsArray[i + 1], rowsArray[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount === 0 && dir === "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
   </script>
