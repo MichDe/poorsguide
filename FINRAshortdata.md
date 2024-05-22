@@ -1,6 +1,7 @@
 # ./FINRAshortdata
 
-    <input type="date" id="date-selector" />
+
+  <input type="date" id="date-selector" />
   <select id="file-type-selector">
     <option value="CNMSshvol" selected>Consolidated</option>
     <option value="FNSQshvol">NASDAQ Carteret</option>
@@ -143,5 +144,4 @@
         .catch(error => console.error('Error fetching the data file:', error));
     });
 $.fn.dataTable.ext.errMode = 'none';
-
   </script>
