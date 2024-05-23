@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FINRA Data Viewer</title>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-</head>
-<body>
+
   <label for="start-date-selector">Start Date:</label>
   <input type="date" id="start-date-selector" />
   
@@ -195,5 +187,3 @@
       return arr;
     }
   </script>
-</body>
-</html>
