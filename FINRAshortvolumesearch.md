@@ -1,33 +1,47 @@
 
-  <label for="start-date-selector">Start Date:</label>
-  <input type="date" id="start-date-selector" />
+  <div style="padding: 20px;">
+    <label for="start-date-selector">Start Date:</label>
+    <input type="date" id="start-date-selector" class="form-control" />
   
-  <label for="end-date-selector">End Date:</label>
-  <input type="date" id="end-date-selector" />
+    <label for="end-date-selector">End Date:</label>
+    <input type="date" id="end-date-selector" class="form-control" />
   
-  <select id="file-type-selector">
-    <option value="CNMSshvol" selected>Consolidated</option>
-    <option value="FNSQshvol">NASDAQ Carteret</option>
-    <option value="FNQCshvol">NASDAQ Chicago</option>
-    <option value="FNYXshvol">NYSE</option>
-    <option value="FNRAshvol">ADF</option>
-    <option value="FORFshvol">ORF</option>
-    <!-- Add more options as needed -->
-  </select>
-  <table id="data-table" class="display">
-    <thead>
-      <tr></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <label for="file-type-selector">File Type:</label>
+    <select id="file-type-selector" class="form-control">
+      <option value="CNMSshvol" selected>Consolidated</option>
+      <option value="FNSQshvol">NASDAQ Carteret</option>
+      <option value="FNQCshvol">NASDAQ Chicago</option>
+      <option value="FNYXshvol">NYSE</option>
+      <option value="FNRAshvol">ADF</option>
+      <option value="FORFshvol">ORF</option>
+      <!-- Add more options as needed -->
+    </select>
+
+    <table id="data-table" class="display" style="width: 100%; margin-top: 20px;">
+      <thead>
+        <tr></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script>
     $(document).ready(function() {
+      $('body').toggleClass('dark');
+
+      function getFirstDayOfWeek() {
+        const firstDay = new Date().toLocaleDateString(undefined, { weekday: 'long' });
+        const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return weekdays.indexOf(firstDay);
+      }
+
       function isWeekday(date) {
-        const day = date.getDay();
-        return day >= 0 && day <= 4; // Monday = 0, Tuesday = 1, ..., Friday = 4
+        const firstDayOfWeek = getFirstDayOfWeek();
+        const day = (date.getDay() - firstDayOfWeek + 6) % 7;
+        return day >= 2 && day <= 7;
       }
 
       function getDefaultDate() {
@@ -109,9 +123,12 @@
           if (validData.length === 0) throw new Error('No data available for the selected date range');
 
           const delimiter = detectDelimiter(validData[0]);
-          const allRows = validData.flatMap(data => parseData(data, delimiter));
+          const allRows = validData.flatMap((data, index) => parseData(data, delimiter, index === 0));
           const headers = allRows[0];
-          const combinedRows = allRows.slice(1);
+          const combinedRows = allRows.slice(1).map(row => row.map(cell => {
+            if (!isNaN(cell)) return parseFloat(cell);
+            return cell;
+          }));
           return { headers, combinedRows };
         });
       }
@@ -142,7 +159,7 @@
             data: combinedRows,
             columns: headers.map(header => ({ title: header })),
             deferRender: true,
-            scrollY: 700,
+            scrollY: 720,
             scrollCollapse: true,
             scroller: true,
             pageLength: 20,
@@ -163,12 +180,18 @@
       return ','; 
     }
 
-    function parseData(str, delimiter) {
+    function parseData(str, delimiter, isFirstFile) {
       const arr = [];
       let quote = false;
+      let skipFirstLine = !isFirstFile; // Skip the header line for all but the first file
 
       for (let row = 0, col = 0, c = 0; c < str.length; c++) {
         const cc = str[c], nc = str[c + 1];
+        if (skipFirstLine && cc === '\n') {
+          skipFirstLine = false;
+          continue;
+        }
+
         arr[row] = arr[row] || [];
         arr[row][col] = arr[row][col] || '';
 
@@ -187,3 +210,4 @@
       return arr;
     }
   </script>
+  
