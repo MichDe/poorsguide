@@ -1,6 +1,5 @@
 # ./FINRAshortdata
 
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
   <input type="date" id="date-selector" />
   <select id="file-type-selector">
     <option value="CNMSshvol" selected>Consolidated</option>
