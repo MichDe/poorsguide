@@ -8,6 +8,7 @@
     <option value="FNYXshvol">NYSE</option>
     <option value="FNRAshvol">ADF</option>
     <option value="FORFshvol">ORF</option>
+    <!-- Add more options as needed -->
   </select>
   <table id="data-table" class="display">
     <thead>
@@ -22,16 +23,18 @@
     $(document).ready(function() {
       function isWeekday(date) {
         const day = date.getDay();
-        return day >= 1 && day <= 5;
+        return day >= 1 && day <= 5; // Monday = 1, Tuesday = 2, ..., Friday = 5
       }
 
       function getDefaultDate() {
         const today = new Date();
         let defaultDate = new Date(today);
         defaultDate.setDate(today.getDate() - 1);
+
         while (!isWeekday(defaultDate)) {
           defaultDate.setDate(defaultDate.getDate() - 1);
         }
+
         return defaultDate.toISOString().split('T')[0];
       }
 
@@ -71,7 +74,7 @@
       const selectedFileType = params.filetype || 'CNMSshvol';
       $('#date-selector').val(`${selectedDate.slice(0, 4)}-${selectedDate.slice(4, 6)}-${selectedDate.slice(6, 8)}`);
       $('#file-type-selector').val(selectedFileType);
-      
+
       const dataUrl = `https://cdn.finra.org/equity/regsho/daily/${selectedFileType}${selectedDate}.txt`;
 
       function detectDelimiter(data) {
