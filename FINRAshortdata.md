@@ -1,6 +1,6 @@
 # ./FINRAshortdata
 
-
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
   <input type="date" id="date-selector" />
   <select id="file-type-selector">
     <option value="CNMSshvol" selected>Consolidated</option>
@@ -9,7 +9,6 @@
     <option value="FNYXshvol">NYSE</option>
     <option value="FNRAshvol">ADF</option>
     <option value="FORFshvol">ORF</option>
-    <!-- Add more options as needed -->
   </select>
   <table id="data-table" class="display">
     <thead>
@@ -29,19 +28,11 @@
 
       function getDefaultDate() {
         const today = new Date();
-        const day = today.getDay();
-        let defaultDate;
-
-        if (day === 0) { 
-          defaultDate = new Date(today);
-          defaultDate.setDate(today.getDate() - 2);
-        } else if (day === 6) {
-          defaultDate = new Date(today);
-          defaultDate.setDate(today.getDate() - 1);
-        } else {
-          defaultDate = today;
+        let defaultDate = new Date(today);
+        defaultDate.setDate(today.getDate() - 1);
+        while (!isWeekday(defaultDate)) {
+          defaultDate.setDate(defaultDate.getDate() - 1);
         }
-
         return defaultDate.toISOString().split('T')[0];
       }
 
@@ -118,7 +109,10 @@
       }
 
       fetch(dataUrl)
-        .then(response => response.text())
+        .then(response => {
+          if (!response.ok) throw new Error('No data available for the selected date');
+          return response.text();
+        })
         .then(data => {
           const delimiter = detectDelimiter(data);
           const rows = parseData(data, delimiter);
@@ -141,7 +135,10 @@
             scroller: true
           });
         })
-        .catch(error => console.error('Error fetching the data file:', error));
+        .catch(error => {
+          console.error('Error fetching the data file:', error);
+          alert('No data available for the selected date');
+        });
     });
-$.fn.dataTable.ext.errMode = 'none';
+    $.fn.dataTable.ext.errMode = 'none';
   </script>
