@@ -23,7 +23,7 @@
     $(document).ready(function() {
       function isWeekday(date) {
         const day = date.getDay();
-        return day >= 1 && day <= 5; // Monday = 1, Tuesday = 2, ..., Friday = 5
+        return day >= 0 && day <= 4; // Monday = 0, Tuesday = 1, ..., Friday = 4
       }
 
       function getDefaultDate() {
