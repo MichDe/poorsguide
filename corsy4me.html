@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Data Display</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSV Data Display</h1>
+    <table id="csv-table">
+        <thead>
+            <tr id="csv-header"></tr>
+        </thead>
+        <tbody id="csv-body"></tbody>
+    </table>
+
+    <script>
+        async function fetchCSVData() {
+            const proxyUrl = 'https://corsy4me.maninthedot.workers.dev/';
+            const targetUrl = 'https://query1.finance.yahoo.com/v7/finance/download/GME?period1=1682899200&period2=1717113600&interval=1d&events=history&includeAdjustedClose=true';
+            const response = await fetch(proxyUrl + targetUrl);
+            const data = await response.text();
+            displayCSVData(data);
+        }
+
+        function displayCSVData(data) {
+            const rows = data.split('\\n');
+            const headers = rows[0].split(',');
+
+            const headerRow = document.getElementById('csv-header');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+
+            const body = document.getElementById('csv-body');
+            rows.slice(1).forEach(row => {
+                if (row.trim() === '') return;
+                const cells = row.split(',');
+                const tr = document.createElement('tr');
+                cells.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                body.appendChild(tr);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchCSVData);
+    </script>
+</body>
+</html>
